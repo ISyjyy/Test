@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-table.min.js"></script>
+    <link href="css/bootstrap-table.min.css" rel="stylesheet" />
+    <script src="js/bootstrap-table-zh-CN.js"></script>
+    <meta charset="UTF-8">
+    <title>table</title>
+
+</head>
+<body>
+
+<a href="/downloadFile">excel模版下载</a>
+<form class="form-horizontal" id="form_table" action="/import" enctype="multipart/form-data" method="post">
+    <button type="submit" class="btn btn-primary">导入</button>
+    <input class="form-input" type="file" name="filename">
+</form>
+
+我的表格
+<table id="mytable" class="table table-striped table-bordered table-hover"
+       style="font-size: 14px !important;"></table>
+<script src="js/table.js"></script>
+<script src="js/load.js"></script>
+<script src="js/dialog.js"></script>
+</body>
+</html>
