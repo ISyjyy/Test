@@ -89,7 +89,7 @@ public class helloController {
     //@ResponseBody
     public String queryUserBypage(HttpServletRequest request,Model model){
         System.out.println("进入方法");
-        String pageNum = request.getParameter("pageNum");
+        String pageNum = request.getParameter("pageNo");
         int ret=1;
         if(pageNum!=null&&!"".equals(pageNum)) {
             ret = Integer.parseInt(pageNum);
