@@ -14,7 +14,7 @@ public class BaseBean implements java.io.Serializable {
 	public static final int DEFAULT_PAGE_SIZE = 10;
 
 	private Integer currentPage = 1; // 默认当前页为第1页
-	private int pageSize = 3; // 默认每页显示10条记录
+	private int pageSize = 2; // 默认每页显示10条记录
 	private String startTime; // 起始时间
 	private String endTime; // 截止时间
 	private String resCode; // 响应码

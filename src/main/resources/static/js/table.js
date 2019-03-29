@@ -48,7 +48,7 @@ jQuery(function ($) {
             //隐藏加载框
             $.loading.end();
             //初始化窗口函数
-            $(".save").mzDialog();
+            //$(".save").mzDialog();
             $(".refuse").mzDialog();
         },
         onLoadError: function () {

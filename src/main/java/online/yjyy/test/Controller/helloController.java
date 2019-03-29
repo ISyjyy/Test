@@ -1,6 +1,7 @@
 package online.yjyy.test.Controller;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import online.yjyy.test.Controller.service.userService;
@@ -82,6 +83,30 @@ public class helloController {
        // result.setData(userList);
         return userList;
     }*/
+
+
+    @RequestMapping(value = "testUser")
+    //@ResponseBody
+    public String queryUserBypage(HttpServletRequest request,Model model){
+        System.out.println("进入方法");
+        String pageNum = request.getParameter("pageNum");
+        int ret=1;
+        if(pageNum!=null&&!"".equals(pageNum)) {
+            ret = Integer.parseInt(pageNum);
+        }
+        PageHelper.startPage(ret,2);
+        final Page<User> userList = userMapper.getUserList();
+        PageInfo pageInfo=new PageInfo(userList);
+        List list = pageInfo.getList();
+        for (Object o : list) {
+            System.out.println("11111111111111"+o);
+        }
+        System.out.println(pageInfo);
+         model.addAttribute("list",list);
+        model.addAttribute("pageInfo",pageInfo);
+        return "pages";
+    }
+
   @RequestMapping(value = "queryUser.do")
   @ResponseBody
   public Result queryUser(@RequestBody User user){
