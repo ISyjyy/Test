@@ -96,7 +96,7 @@ public class helloController {
         }
         PageHelper.startPage(ret,2);
         final Page<User> userList = userMapper.getUserList();
-        PageInfo pageInfo=new PageInfo(userList);
+        PageInfo pageInfo=new PageInfo(userList,3);
         List list = pageInfo.getList();
         for (Object o : list) {
             System.out.println("11111111111111"+o);
