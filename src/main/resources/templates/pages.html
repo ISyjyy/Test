@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/../css/bootstrap.min.css">
+    <link href="/../css/bootstrap-table.min.css" rel="stylesheet" />
+    <!-- <script src="js/jquery-3.3.1.min.js"></script>-->
+    <script src="/../js/jquery-2.0.3.min.js"></script>
+    <script src="/../js/bootstrap.min.js"></script>
+    <script src="/../js/bootstrap-table.min.js"></script>
+    <script src="/../js/bootstrap-table-zh-CN.js"></script>
 </head>
 <body>
 <div style="text-align: center;margin:0 auto;width: 1000px; ">
@@ -10,7 +17,9 @@
     <a href="#">云平台首页</a>
     <a href="#">文档中心</a>
 </div>
-<div style="height: 15px;"><hr/></div>
+<div style="height: 15px;">
+    <hr/>
+</div>
 <div style="float:left;width:10%;height:800px;border:1px">
     <h3 style="text-align:left">用户中心</h3>
     <a href="#">个人信息</a><br/>
@@ -28,7 +37,7 @@
     <table class="tablelist">
 
         <thead>
-        <tr align="left" class= "d">
+        <tr align="left" class="d">
             <th width="5%">序号</th>
             <th width="10%">名称</th>
             <th width="15%">密码</th>
@@ -42,7 +51,7 @@
         </tr>
         </tbody>
     </table>
-    <hr />
+    <hr/>
     <table class="gridtable" style="width:100%;text-align: center;">
         <tr>
             <td width="10%" th:if="${pageInfo.hasPreviousPage}">
@@ -51,10 +60,12 @@
             <td width="10%" th:if="${pageInfo.hasPreviousPage}">
                 <a th:href="'?pageNo='+${pageInfo.prePage}">上一页</a>
             </td>
+
             <td width="10%" th:each="nav : ${pageInfo.navigatepageNums}">
                 <a th:href="'?pageNo='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
                 <span style="font-weight: bold" th:if="${nav == pageInfo.pageNum}" th:text="${nav}"></span>
             </td>
+
             <td width="10%" th:if="${pageInfo.hasNextPage}">
                 <a th:href="'?pageNo='+${pageInfo.nextPage}">下一页</a>
             </td>
@@ -63,20 +74,141 @@
             </td>
         </tr>
     </table>
-    <hr />
+    <hr/>
     <div>当前页号：<span th:text="${pageInfo.pageNum}"></span></div>
     <div>每页条数：<span th:text="${pageInfo.pageSize}"></span></div>
     <div>起始行号：<span th:text="${pageInfo.startRow}"></span></div>
     <div>终止行号：<span th:text="${pageInfo.endRow}"></span></div>
     <div>总结果数：<span th:text="${pageInfo.total}"></span></div>
     <div>总页数：<span th:text="${pageInfo.pages}"></span></div>
-    <hr />
+    <hr/>
     <div>是否为第一页：<span th:text="${pageInfo.isFirstPage}"></span></div>
     <div>是否为最后一页：<span th:text="${pageInfo.isLastPage}"></span></div>
     <div>是否有前一页：<span th:text="${pageInfo.hasPreviousPage}"></span></div>
     <div>是否有下一页：<span th:text="${pageInfo.hasNextPage}"></span></div>
+    <!--显示分页信息-->
+
+    <div style="display: inline;float: left;padding-left: 50px;">
+        <span id="xx" style="cursor: pointer">每页显示</span>
+        <select style="width: 50px;" id="setPageSize" onchange="changePageSize()">
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+        </select>
+        <span id="ds" style="cursor: pointer">条记录，</span>
+        <span id="numCount" style="cursor: pointer">总共 xx条记录，</span>
+        <span id="currrentPage" style="cursor: pointer">当前是第 xx页，</span>
+        <span id="PageCount" style="cursor: pointer">总共 xx页。</span>
+    </div>
+    <div style="display: inline" class="pull-right pagination">
+        <ul class="pagination" id="pageNums">
+
+        </ul>
+    </div>
+
+    分页样式;
+    <div class="pull-right pagination">
+        <ul class="pagination">
+            <li class="page-pre"><a th:href="'?pageNo='+${pageInfo.prePage}" href="javascript:void(0)">‹</a></li>
+            <li class="page-number" onchange="changecolor()" th:each="nav : ${pageInfo.navigatepageNums}">
+            <a th:href="'?pageNo='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}" ></a>
+            <span style="font-weight: bold ;color: red" th:if="${nav == pageInfo.pageNum}" th:text="${nav}"></span>
+   <!--         <li class="page-number"><a href="javascript:void(0)">2</a></li>
+            <li class="page-number"><a href="javascript:void(0)">3</a></li>
+            <li class="page-number"><a href="javascript:void(0)">4</a></li>
+            <li class="page-number"><a href="javascript:void(0)">5</a></li>
+            <li class="page-last-separator disabled"><a href="javascript:void(0)">...</a></li>
+            <li class="page-last"><a href="javascript:void(0)">10</a></li>-->
+            <li class="page-next"><a th:href="'?pageNo='+${pageInfo.nextPage}" href="javascript:void(0)">›</a></li>
+
+        </ul>
+    </div>
 </div>
 <script>
+
+    jQuery(function ($) {
+        console.log("加载页数");
+        var addactive=document.getElementById("")
+      //  getpageNum();
+    });
+
+    function changecolor() {
+    this.addClass("active");
+}
+
+    function getpageNum() {
+        /*    var currentPage = 15;
+            var pageCount = 20;*/
+        var html = "";
+        var pageHtml = "";
+        var prePageHtml = ""; //上一页
+        var lastPageHtml = ""; //下一页
+        var prePage = '<li class="page-pre"><a onclick="goPrePage(' + currentPage + ')" id="goPrePage" style="cursor: pointer" >' + '<' + '</a></li>';
+        var nextPage = '<li class="page-next"><a  onclick="goNextPage(' + currentPage + ')" id="goNextPage" style="cursor: pointer" >' + '>' + '</a></li>';
+        var first = '<li class="page-first"><a style="cursor: pointer"   onclick="changePage(1);" >' + 1 + '</a></li>';
+        var last = '<li class="page-last"><a  style="cursor: pointer"  onclick="changePage(' + pageCount + ');" >' + pageCount + '</a></li>';
+        var del = '<li class="page-del"><a  style="cursor: pointer" >' + '...' + '</a></li>';
+        //debugger
+        if (currentPage < 5) {
+            if (pageCount <= 5) {
+                console.log("进入方法一");
+                for (var i = 1; i <= pageCount; i++) {
+                    pageHtml += '<li class="page-number " id="' + i + '" ><a style="cursor: pointer" onclick="changePage(' + i + ');" href="javascript:void(0)">' + i + '</a></li>';
+                }
+                html = prePage + pageHtml + nextPage;
+                //小于5 拼接 1 2 3 4 5 ... pageCount
+            } else if (currentPage < 5 && pageCount >= 6) {
+                console.log("进入方法二");
+                for (var i = 1; i <= 5; i++) {
+                    pageHtml += '<li class="page-number " id="' + i + '" ><a style="cursor: pointer" onclick="changePage(' + i + ');" href="javascript:void(0)">' + i + '</a></li>';
+                }
+                html = prePage + pageHtml + del + last + nextPage;
+                //小于5 拼接 1 2 3 4 5 ... pageCount
+            }
+
+        } else if (currentPage >= 5 && currentPage <= (pageCount - 4)) {    //大于5小于pageCount-5 1...i-1 i i+1 ...pageCount
+            console.log("进入方法三");
+            prePageHtml += '<li class="page-number " id="' + (currentPage - 1) + '" ><a style="cursor: pointer" onclick="changePage(' + (currentPage - 1) + ');" >' + (currentPage - 1) + '</a></li>';
+
+            pageHtml += '<li class="page-number " id="' + currentPage + '" ><a style="cursor: pointer" onclick="changePage(' + currentPage + ');" >' + currentPage + '</a></li>';
+
+            lastPageHtml += '<li class="page-number " id="' + (currentPage + 1) + '" ><a style="cursor: pointer" onclick="changePage(' + (currentPage + 1) + ');" >' + (currentPage + 1) + '</a></li>';
+            html = prePage + first + del + prePageHtml + pageHtml + lastPageHtml + del + last + nextPage;
+        } else if (currentPage >= (pageCount - 4)) {   //大于pageCount-5  1.... 6 7 8 9 10
+            console.log("进入方法四");
+            if (pageCount == 5) {
+                for (var i = pageCount - 4; i <= pageCount; i++) {
+                    pageHtml += '<li class="page-number " id="' + i + '" ><a style="cursor: pointer" onclick="changePage(' + i + ');" >' + i + '</a></li>';
+                }
+                html = prePage + pageHtml + nextPage;
+            } else {
+
+                for (var i = pageCount - 4; i <= pageCount; i++) {
+                    pageHtml += '<li class="page-number " id="' + i + '" ><a style="cursor: pointer" onclick="changePage(' + i + ');" >' + i + '</a></li>';
+                }
+                html = prePage + first + del + pageHtml + nextPage;
+            }
+        }
+        console.log(html);
+        $("#pageNums").html(html);
+
+    }
+
+    //点击改变页数
+    function changePage(i) {
+        activeId = "#" + i;
+        console.log(activeId);
+        //  $(id).attr("class","page-number active");
+        queryNewData(i, pageSize, numCount);
+        $(activeId).addClass("active");//设置页数高亮
+    }
+
+    function changePageSize() {
+        pageSize = $("#setPageSize").val();
+        console.log(pageSize);
+        queryNewData(currentPage, pageSize, numCount);
+
+    }
 </script>
 </body>
 </html>
